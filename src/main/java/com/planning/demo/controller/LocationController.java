@@ -24,16 +24,26 @@ class LocationController {
 	
 	
 
-	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Location> findAll() {
-		return locationRepository.findAll();
+		try {
+			return locationRepository.findAll();
+		} catch (Exception e) {
+			System.out.println("Error getting locations: " + e.toString());
+		}
+		return null;
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/getLocation/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public Location findOne(@PathVariable("id") Long id) {
-		return locationRepository.findById(id).get();
+		try {
+			return locationRepository.findById(id).get();
+		} catch (Exception e) {
+			System.out.println("Error getting the location : " + e.toString());
+		}
+		return null;
 	}
 	
 
@@ -46,22 +56,36 @@ class LocationController {
 	
 	@RequestMapping(value="/create", method = RequestMethod.POST)
 	@ResponseBody
-	public Location create(@RequestBody Location Location) {
-		return locationRepository.save(Location);
+	public Location create(@RequestBody Location location) {
+		try {
+			locationRepository.save(location);
+		} catch (Exception e) {
+			System.out.println("Error saving the location : " + e.toString());
+		}
+		return null;
 		
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Location update(@PathVariable("id") Long id, @Valid @RequestBody Location location) {
-		location.setIdLocation(id);
-		return locationRepository.saveAndFlush(location);
+		try {
+			location.setIdLocation(id);;
+			return locationRepository.saveAndFlush(location);
+		} catch (Exception e) {
+			System.out.println("Error updating the location : " + e.toString());
+		}
+		return null;
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public void delete(@PathVariable("id") Long id) {
-		locationRepository.deleteById(id);
+		try {
+			locationRepository.deleteById(id);
+		} catch (Exception e) {
+			System.out.println("Error deleting the location : " + e.toString());
+		}
 	}
 
 }

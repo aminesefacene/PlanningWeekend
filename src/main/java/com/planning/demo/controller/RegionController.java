@@ -24,16 +24,26 @@ class RegionController {
 	
 	
 
-	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Region> findAll() {
-		return regionRepository.findAll();
+		try {
+			return regionRepository.findAll();
+		} catch (Exception e) {
+			System.out.println("Error getting regions: " + e.toString());
+		}
+		return null;
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/getRegion/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public Region findOne(@PathVariable("id") Long id) {
-		return regionRepository.findById(id).get();
+		try {
+			return regionRepository.findById(id).get();
+		} catch (Exception e) {
+			System.out.println("Error getting region: " + e.toString());
+		}
+		return null;
 	}
 	
 
@@ -46,22 +56,36 @@ class RegionController {
 	
 	@RequestMapping(value="/create", method = RequestMethod.POST)
 	@ResponseBody
-	public Region create(@RequestBody Region Region) {
-		return regionRepository.save(Region);
+	public Region create(@RequestBody Region region) {
+		try {
+			return regionRepository.save(region);
+		} catch (Exception e) {
+			System.out.println("Error saving the region : " + e.toString());
+		}
+		return null;
 		
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Region update(@PathVariable("id") Long id, @Valid @RequestBody Region region) {
-		region.setIdRegion(id);
-		return regionRepository.saveAndFlush(region);
+		try {
+			region.setIdRegion(id);
+			return regionRepository.saveAndFlush(region);
+		} catch (Exception e) {
+			System.out.println("Error updating the region : " + e.toString());
+		}
+		return null;
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public void delete(@PathVariable("id") Long id) {
-		regionRepository.deleteById(id);
+		try {
+			regionRepository.deleteById(id);
+		} catch (Exception e) {
+			System.out.println("Error deleting the region: " + e.toString());
+		}
 	}
 
 }

@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,16 +25,26 @@ class UserController {
 	
 	
 
-	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	@ResponseBody
 	public List<User> findAll() {
-		return userRepository.findAll();
+		try {
+			return userRepository.findAll();
+		} catch (Exception e) {
+			System.out.println("Error getting users: " + e.toString());
+		}
+		return null;
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/getUser/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public User findOne(@PathVariable("id") Long id) {
-		return userRepository.findById(id).get();
+		try {
+			return userRepository.findById(id).get();
+		} catch (Exception e) {
+			System.out.println("Error getting the user : " + e.toString());
+		}
+		return null;
 	}
 	
 
@@ -47,21 +58,35 @@ class UserController {
 	@RequestMapping(value="/create", method = RequestMethod.POST)
 	@ResponseBody
 	public User create(@RequestBody User user) {
-		return userRepository.save(user);
+		try {
+			userRepository.save(user);
+		} catch (Exception e) {
+			System.out.println("Error saving the user : " + e.toString());
+		}
+		return null;
 		
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public User update(@PathVariable("id") Long id, @Valid @RequestBody User user) {
-		user.setIdUser(id);
-		return userRepository.saveAndFlush(user);
+		try {
+			user.setIdUser(id);
+			return userRepository.saveAndFlush(user);
+		} catch (Exception e) {
+			System.out.println("Error updating the user : " + e.toString());
+		}
+		return null;
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public void delete(@PathVariable("id") Long id) {
-		userRepository.deleteById(id);
+		try {
+			userRepository.deleteById(id);
+		} catch (Exception e) {
+			System.out.println("Error deleting the user : " + e.toString());
+		}
 	}
 
 }

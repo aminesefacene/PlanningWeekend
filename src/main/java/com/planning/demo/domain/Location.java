@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -18,39 +19,6 @@ public class Location implements Serializable{
 	private long idLocation;
 	private long numStreet;
 	private String nameStreet;
-	public String getCity() {
-		return city;
-	}
-
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-
-	public List<Activity> getActivities() {
-		return activities;
-	}
-
-
-	public void setActivities(List<Activity> activities) {
-		this.activities = activities;
-	}
-
-
-	public Region getRegion() {
-		return region;
-	}
-
-
-	public void setRegion(Region region) {
-		this.region = region;
-	}
-
-
-	public void setIdLocation(long idLocation) {
-		this.idLocation = idLocation;
-	}
 	private String zipCode;
 	private String city;
 	
@@ -58,7 +26,7 @@ public class Location implements Serializable{
 	private List<Activity> activities;
 	
 	@OneToOne
-	
+	@JoinColumn(name="idRegion")
 	private Region region;
 	
 	public Location() {
@@ -104,36 +72,41 @@ public class Location implements Serializable{
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}
-	/*	public String getCity() {
+
+	public String getCity() {
 		return city;
 	}
+
+
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public String getCountry() {
-		return country;
-	}
-	public void setCountry(String country) {
-		this.country = country;
-	}
-	public String getRegion() {
-		return region;
-	}
-	public void setRegion(String region) {
-		this.region = region;
-	}
-	public String getDepartment() {
-		return department;
-	}
-	public void setDepartment(String department) {
-		this.department = department;
-	}
+
+
 	public List<Activity> getActivities() {
 		return activities;
 	}
+
+
 	public void setActivities(List<Activity> activities) {
 		this.activities = activities;
-	}*/
+	}
 
+
+	public Region getRegion() {
+		return region;
+	}
+
+
+	public void setRegion(Region region) {
+		this.region = region;
+	}
+
+
+	public void setIdLocation(long idLocation) {
+		this.idLocation = idLocation;
+	}
+
+	
 
 }

@@ -6,8 +6,6 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 
 @Entity
@@ -18,7 +16,7 @@ public class Activity implements Serializable{
 	private long idActivity;
 	private String name;
 	private Level level;
-
+	
 	
 	public Activity() {
 		super();

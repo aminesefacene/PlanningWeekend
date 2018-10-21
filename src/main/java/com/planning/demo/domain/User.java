@@ -17,7 +17,7 @@ public class User implements Serializable{
 	@Id
 	@GeneratedValue
 	private long idUser;
-	private String name;
+	private String familyName;
 	private String firstName;
 	private String userName;
 	private String mail;
@@ -34,9 +34,9 @@ public class User implements Serializable{
 		super();
 	}
 
-	public User(String name, String firstName, String userName, String mail, String phone) {
+	public User(String Familyname, String firstName, String userName, String mail, String phone) {
 		super();
-		this.name = name;
+		this.familyName = Familyname;
 		this.firstName = firstName;
 		this.userName = userName;
 		this.mail = mail;
@@ -62,11 +62,11 @@ public class User implements Serializable{
 	}
 
 	public String getName() {
-		return name;
+		return familyName;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.familyName = name;
 	}
 
 	public String getFirstName() {
