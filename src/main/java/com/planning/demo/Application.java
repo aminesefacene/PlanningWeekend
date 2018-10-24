@@ -22,6 +22,8 @@ public class Application {
         ActivityRepository ar = ctx.getBean(ActivityRepository.class);
         Activity a1 = new Activity("Football", Level.EASY); 
         ar.save(a1);
+        Activity a2 = new Activity("Basketball", Level.EASY); 
+        ar.save(a2);
         
         RegionRepository rr = ctx.getBean(RegionRepository.class);
         Region r1 = new Region("Bretagne","Ile et Vilaine","Rennes");

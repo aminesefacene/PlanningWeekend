@@ -19,10 +19,7 @@ import com.planning.demo.repository.RegionRepository;
 class RegionController {
 
 	@Autowired
-	private RegionRepository regionRepository;
-	
-	
-	
+	private RegionRepository regionRepository;	
 
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	@ResponseBody
