@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.planning.demo.domain.Activity;
 import com.planning.demo.repository.ActivityRepository;
 
-@Controller
+@RestController
 @RequestMapping("/activity")
 class ActivityController {
 
@@ -25,7 +27,7 @@ class ActivityController {
 	
 	
 	
-
+	@Secured(value={"ROLE_ADMIN","ROLE_ETUDIANT"})
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Activity> findAll() {
@@ -37,6 +39,7 @@ class ActivityController {
 		return null;
 	}
 
+	@Secured(value={"ROLE_ADMIN","ROLE_ETUDIANT"})
 	@RequestMapping(value = "/getActivity/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public Activity findOne(@PathVariable("id") Long id) {
@@ -57,6 +60,7 @@ class ActivityController {
 		return "salut";
 	}
 	
+	@Secured(value={"ROLE_ADMIN"})
 	@RequestMapping(value="/create", method = RequestMethod.POST)
 	@ResponseBody
 	public Activity create(@RequestBody Activity activity) {
@@ -69,6 +73,7 @@ class ActivityController {
 		
 	}
 
+	@Secured(value={"ROLE_ADMIN"})
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Activity update(@PathVariable("id") Long id, @Valid @RequestBody Activity activity) {
@@ -81,6 +86,7 @@ class ActivityController {
 		return null;
 	}
 
+	@Secured(value={"ROLE_ADMIN"})
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public void delete(@PathVariable("id") Long id) {
@@ -90,5 +96,6 @@ class ActivityController {
 			System.out.println("Error deleting the activity : " + e.toString());
 		}
 	}
+	
 
 }

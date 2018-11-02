@@ -5,16 +5,19 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.planning.demo.domain.Location;
 import com.planning.demo.repository.LocationRepository;
 
-@Controller
+@RestController
 @RequestMapping("/location")
 class LocationController {
 
@@ -23,7 +26,7 @@ class LocationController {
 	
 	
 	
-
+	@Secured(value={"ROLE_ADMIN","ROLE_ETUDIANT"})
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Location> findAll() {
@@ -35,6 +38,7 @@ class LocationController {
 		return null;
 	}
 
+	@Secured(value={"ROLE_ADMIN","ROLE_ETUDIANT"})
 	@RequestMapping(value = "/getLocation/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public Location findOne(@PathVariable("id") Long id) {
@@ -54,6 +58,7 @@ class LocationController {
 		return "salut";
 	}
 	
+	@Secured(value={"ROLE_ADMIN"})
 	@RequestMapping(value="/create", method = RequestMethod.POST)
 	@ResponseBody
 	public Location create(@RequestBody Location location) {
@@ -66,6 +71,7 @@ class LocationController {
 		
 	}
 
+	@Secured(value={"ROLE_ADMIN"})
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Location update(@PathVariable("id") Long id, @Valid @RequestBody Location location) {
@@ -78,6 +84,7 @@ class LocationController {
 		return null;
 	}
 
+	@Secured(value={"ROLE_ADMIN"})
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public void delete(@PathVariable("id") Long id) {
