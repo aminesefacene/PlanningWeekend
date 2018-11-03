@@ -24,8 +24,7 @@ class RegionController {
 	@Autowired
 	private RegionRepository regionRepository;
 	
-	
-	
+
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Region> findAll() {

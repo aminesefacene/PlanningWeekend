@@ -1,12 +1,18 @@
 import React from 'react';
 import { connect } from "react-redux";
-import { connectUser } from '../actions/actions'
+import { connectUser, getUserActivities, getUserRegions, getAllActivities, getAllRegions } from '../actions/actions'
 import { User } from '../user'
+import { ConnectedActivityList } from './activityList'
+import { ConnectedRegionList } from './regionList'
 const axios = require('axios');
 
 const mapDispatchToProps = dispatch => {
   return {
-    connectUser: user => dispatch(connectUser(user))
+    connectUser: user => dispatch(connectUser(user)),
+    getUserActivities: activities => dispatch(getUserActivities(activities)),
+    getUserRegions: regions => dispatch(getUserRegions(regions)),
+    getAllActivities: allActivities => dispatch(getAllActivities(allActivities)),
+    getAllRegions: allRegions => dispatch(getAllRegions(allRegions))
   };
 };
 
@@ -30,30 +36,35 @@ class ConnectionForm extends React.Component {
         this.setState({password: event.target.value});
     }
 
+    getAllLists = () => {
+      let url = 'http://localhost:8080/user/getUser/5';//CHANGER l'ID EN FONCTION DU USER QUAND LE BACKEND SERA OK
+      axios.get(url).then(response => this.props.getUserActivities(response.data.activities));
+      axios.get(url).then(response => this.props.getUserRegions(response.data.regions));
+      let urlAllActivities = 'http://localhost:8080/activity/getAll';
+      axios.get(urlAllActivities).then(response => this.props.getAllActivities(response.data));
+      let urlAllRegions = 'http://localhost:8080/region/getAll';
+      axios.get(urlAllRegions).then(response => this.props.getAllRegions(response.data));
+    }
+
     connectionUser = () => {
-        //faire en sorte que le state de l'appli ai un user et que app.js renvoie
-        //la page de connection ou la page de l'utilisateur connecté celon ce state
         let user = new User(this.state.login, this.state.password);
+        this.getAllLists();
         this.props.connectUser(user);
     }
 
     deconnectionUser = () => {
       this.props.connectUser(undefined);
     }
-
-    testConnectionApi = () => {
-      /*fetch("http://localhost:8080/activity/create").then(Response => {
-        console.log(Response.body);
-        return Response;
-      })*/
-      let url = 'http://localhost:8080/activity/test';
-      console.log(axios.get(url));
-      return axios.get(url);
-    }
   
     render() {
       if(this.props.user!==undefined){
-        return <div><p>{this.testConnectionApi().data}, {this.state.login}</p><button onClick={this.deconnectionUser.bind(this)}>logout</button></div>
+        return <div><p>Bienvenue, {this.state.login}</p>
+        <button onClick={this.deconnectionUser.bind(this)}>logout</button>
+        <br/><br/>
+        <ConnectedActivityList/>
+        <br/><br/>
+        <ConnectedRegionList/>
+        </div>
       }else{
         return (
           <div>

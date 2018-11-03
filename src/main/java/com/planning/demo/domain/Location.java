@@ -20,7 +20,6 @@ public class Location implements Serializable{
 	private long numStreet;
 	private String nameStreet;
 	private String zipCode;
-	private String city;
 	
 	@OneToMany
 	private List<Activity> activities;
@@ -34,12 +33,11 @@ public class Location implements Serializable{
 	}
 
 	
-	public Location(long numStreet, String nameStreet, String zipCode, String city, Region region) {
+	public Location(long numStreet, String nameStreet, String zipCode, Region region) {
 		super();
 		this.numStreet = numStreet;
 		this.nameStreet = nameStreet;
 		this.zipCode = zipCode;
-		this.city = city;
 		this.activities = new ArrayList<Activity>();
 		this.region = region;
 	}
@@ -72,16 +70,6 @@ public class Location implements Serializable{
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}
-
-	public String getCity() {
-		return city;
-	}
-
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
 
 	public List<Activity> getActivities() {
 		return activities;
