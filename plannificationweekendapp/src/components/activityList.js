@@ -24,6 +24,10 @@ class ActivityList extends React.Component {
         return Data.map(MakeItem);
     }
 
+    addActivityToList = () => {
+        
+    }
+
     render() {
         return <div>
             <h3>Liste des activitées</h3>

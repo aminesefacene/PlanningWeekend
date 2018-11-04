@@ -53,6 +53,11 @@ public class Application {
         u1.addRegion(r1);
         u1.addRole(role);
         ur.save(u1);
+        User u2 = new User("testUser2","testMan","test","test","test@test.test","00000");
+        u2.addActivity(a2);
+        //u2.addRegion(r1);
+        u2.addRole(role1);
+        ur.save(u2);
         
 	}
 }

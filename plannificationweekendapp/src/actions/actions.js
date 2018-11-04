@@ -1,3 +1,7 @@
+export const getId = (i) => {
+    return { type: 'GET_ID', id: i}
+}
+
 export const connectUser = (u) => {
     return { type: 'CONNECT_USER', user: u}
 }

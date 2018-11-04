@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
-import { connectUser, getUserActivities, getUserRegions, getAllActivities, getAllRegions } from '../actions/actions'
+import { getId, connectUser, getUserActivities, getUserRegions, getAllActivities, getAllRegions } from '../actions/actions'
 import { User } from '../user'
 import { ConnectedActivityList } from './activityList'
 import { ConnectedRegionList } from './regionList'
@@ -8,6 +8,7 @@ const axios = require('axios');
 
 const mapDispatchToProps = dispatch => {
   return {
+    getId: id => dispatch(getId(id)),
     connectUser: user => dispatch(connectUser(user)),
     getUserActivities: activities => dispatch(getUserActivities(activities)),
     getUserRegions: regions => dispatch(getUserRegions(regions)),
@@ -18,6 +19,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = (state) => {
   return {
+    id: state.id,
     user: state.user
   }
 }
@@ -25,7 +27,7 @@ const mapStateToProps = (state) => {
 class ConnectionForm extends React.Component {
     constructor(props) {
       super(props);
-      this.state = { login: '', password: '' };
+      this.state = {login: '', password: '' };
     }
 
     handleChangeLogin(event) {
@@ -37,7 +39,7 @@ class ConnectionForm extends React.Component {
     }
 
     getAllLists = () => {
-      let url = 'http://localhost:8080/user/getUser/5';//CHANGER l'ID EN FONCTION DU USER QUAND LE BACKEND SERA OK
+      let url = 'http://localhost:8080/user/getUser/'+this.props.id;
       axios.get(url).then(response => this.props.getUserActivities(response.data.activities));
       axios.get(url).then(response => this.props.getUserRegions(response.data.regions));
       let urlAllActivities = 'http://localhost:8080/activity/getAll';
@@ -46,10 +48,20 @@ class ConnectionForm extends React.Component {
       axios.get(urlAllRegions).then(response => this.props.getAllRegions(response.data));
     }
 
-    connectionUser = () => {
+    waitConnectionUser(data) {//fonction permettant d'attendre le résultat de la promesse avant de changer l'affichage
+      this.props.getId(data);
+      if(this.props.id===-1){
+        this.props.connectUser(undefined);
+      }else{
         let user = new User(this.state.login, this.state.password);
         this.getAllLists();
         this.props.connectUser(user);
+      }
+    }
+
+    connectionUser = () => {
+      let url = 'http://localhost:8080/user/getUserByLogin/'+this.state.login+'/'+this.state.password;
+      axios.get(url).then(response => this.waitConnectionUser(response.data));
     }
 
     deconnectionUser = () => {
@@ -63,7 +75,7 @@ class ConnectionForm extends React.Component {
         <br/><br/>
         <ConnectedActivityList/>
         <br/><br/>
-        <ConnectedRegionList/>
+        <p>ConnectedRegionList</p>
         </div>
       }else{
         return (
@@ -74,7 +86,8 @@ class ConnectionForm extends React.Component {
           <label>
             <input type="password" placeholder="password" onChange={this.handleChangePassword.bind(this)} />
           </label>
-          <button onClick={this.connectionUser.bind(this)}>login</button></div>
+          <button onClick={this.connectionUser.bind(this)}>login</button>
+          </div>
         );
       }
     }

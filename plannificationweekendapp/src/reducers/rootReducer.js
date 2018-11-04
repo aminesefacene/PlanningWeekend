@@ -1,12 +1,14 @@
 
 export default function rootReducer(state = 
-	{ user: undefined, activityList: [], regionList: [], availableActivities: [], availableRegions: [] }, action){
+	{ id: -1, user: undefined, activityList: [], regionList: [], availableActivities: [], availableRegions: [] }, action){
 	switch(action.type){
+		case 'GET_ID':
+		return { ...state, id: action.id }
 		case 'CONNECT_USER':
 			if(action.user!==undefined){
 				return { ...state, user: action.user }
 			}else{
-				return { ...state, user: action.user, activityList: [], regionList: [] }
+				return { ...state, id: -1, user: action.user, activityList: [], regionList: [] }
 			}
 		case 'GET_USER_ACTIVITIES':
 			return { ...state, activityList: action.activityList }
