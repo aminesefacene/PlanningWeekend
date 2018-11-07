@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 			.antMatchers("/activity/create").authenticated()
 			.antMatchers("/activity/update/*").authenticated()
 			.antMatchers("/activity/delete/*").authenticated()
-			.antMatchers("/region/**").authenticated()
+			.antMatchers("/region/create").authenticated()
 			.antMatchers("/location/**").authenticated()
 			.anyRequest().permitAll()
 			.and().formLogin().permitAll();

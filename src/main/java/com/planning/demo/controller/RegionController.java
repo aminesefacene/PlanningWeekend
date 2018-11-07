@@ -6,7 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.planning.demo.domain.Region;
 import com.planning.demo.repository.RegionRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/region")
 class RegionController {
@@ -24,7 +25,7 @@ class RegionController {
 	@Autowired
 	private RegionRepository regionRepository;
 	
-
+	@Secured(value = { "ROLE_ADMIN", "ROLE_UTILISATEUR" })
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Region> findAll() {

@@ -6,7 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.planning.demo.domain.Location;
 import com.planning.demo.repository.LocationRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/location")
 class LocationController {
@@ -26,7 +27,7 @@ class LocationController {
 	
 	
 	
-	@Secured(value={"ROLE_ADMIN","ROLE_ETUDIANT"})
+	@Secured(value={"ROLE_ADMIN","ROLE_UTILISATEUR"})
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Location> findAll() {
@@ -38,7 +39,7 @@ class LocationController {
 		return null;
 	}
 
-	@Secured(value={"ROLE_ADMIN","ROLE_ETUDIANT"})
+	@Secured(value={"ROLE_ADMIN","ROLE_UTILISATEUR"})
 	@RequestMapping(value = "/getLocation/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public Location findOne(@PathVariable("id") Long id) {

@@ -10,6 +10,19 @@ const mapStateToProps = (state) => {
 
 class ActivityList extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = { selectedActivity: '', selectedLevel : '' };
+    }
+
+    handleChangeSelectedActivity(event) {
+        this.setState({selectedActivity: event.target.value});
+    }
+
+    handleChangeSelectedLevel(event) {
+        this.setState({selectedLevel: event.target.value});
+    }
+
     displayUserActivities = () => {
         var Data = this.props.userActivities, MakeItem = function(X) {
               return <li key={X.name}>{X.name}</li>
@@ -32,7 +45,9 @@ class ActivityList extends React.Component {
         return <div>
             <h3>Liste des activitées</h3>
             <ul>{this.displayUserActivities()}</ul>
-            <select>{this.displayAllActivities()}</select>
+            <select onChange={this.handleChangeSelectedActivity.bind(this)} value={this.state.selectedActivity}>{this.displayAllActivities()}</select>
+            <select onChange={this.handleChangeSelectedLevel.bind(this)} value={this.state.selectedLevel}><option>EASY</option><option>MEDIUM</option><option>HARD</option></select>
+            <button onClick={this.addActivityToList.bind(this)}>+</button>
             </div>
     }
 }

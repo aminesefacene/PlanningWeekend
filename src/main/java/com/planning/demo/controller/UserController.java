@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import com.planning.demo.domain.Region;
 import com.planning.demo.domain.User;
 import com.planning.demo.repository.UserRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/user")
 class UserController {
@@ -56,7 +58,8 @@ class UserController {
 	public Long findOneUsername(@PathVariable("login") String login, @PathVariable("password") String password) {
 		try {
 			Optional<User> user = userRepository.findByUsername(login);
-			if(user.get().getPassword().equals(password)) {
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(4);
+			if(encoder.matches(password, user.get().getPassword())) {
 				return user.get().getIdUser();
 			}
 			return (long) -1;
