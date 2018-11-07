@@ -10,7 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class User implements Serializable{
@@ -24,13 +26,13 @@ public class User implements Serializable{
 	private String password;
 	private String mail;
 	
-	@OneToMany(fetch = FetchType.EAGER)
-	private List<Role> roles;
+	@OneToOne(fetch = FetchType.EAGER)
+	private Role roles;
 	
-	@OneToMany
+	@ManyToMany
 	private List<Activity> activities;
 	
-	@OneToMany
+	@ManyToMany
 	private List<Region> regions;
 	
 	
@@ -45,7 +47,7 @@ public class User implements Serializable{
 		this.mail = mail;
 		this.activities = new ArrayList<Activity>();
 		this.regions = new ArrayList<Region>();
-		this.roles = new ArrayList<Role>();
+		this.roles = null;
 	}
 
 	public User(User user) {
@@ -66,10 +68,6 @@ public class User implements Serializable{
 		this.regions.add(region);
 	}
 	
-	public void addRole(Role role) {
-		this.roles.add(role);
-	}
-
 	public long getIdUser() {
 		return idUser;
 	}
@@ -101,12 +99,12 @@ public class User implements Serializable{
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-
-	public List<Role> getRoles() {
+	
+	public Role getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<Role> roles) {
+	public void setRoles(Role roles) {
 		this.roles = roles;
 	}
 

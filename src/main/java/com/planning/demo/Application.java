@@ -38,6 +38,10 @@ public class Application {
         l1.addActivity(a1);
         lr.save(l1);
         
+        Location l2 = new Location(37,"rue bordeaux", "33000", r1);
+        l2.addActivity(a1);
+        lr.save(l2);
+        
         RoleRepository rolerepo = ctx.getBean(RoleRepository.class);
         Role role = new Role("ADMIN");
         rolerepo.save(role);
@@ -54,12 +58,13 @@ public class Application {
         User u1 = new User("admin",password,"sef@f.f");
         u1.addActivity(a1);
         u1.addRegion(r1);
-        u1.addRole(role);
+        u1.setRoles(role);
         ur.save(u1);
         User u2 = new User("test", password2,"test@test.test");
         u2.addActivity(a2);
+        u2.addActivity(a1);
         //u2.addRegion(r1);
-        u2.addRole(role1);
+        u2.setRoles(role);
         ur.save(u2);
         
 	}

@@ -15,14 +15,7 @@ public class CustumerUserDetails extends User implements UserDetails{
 	}
 	
 	
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		
-		return getRoles()
-				.stream()
-				.map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
-				.collect(Collectors.toList());
-	}	
+	
 
 	@Override
 	public String getUsername() {
@@ -56,6 +49,15 @@ public class CustumerUserDetails extends User implements UserDetails{
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+
+
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

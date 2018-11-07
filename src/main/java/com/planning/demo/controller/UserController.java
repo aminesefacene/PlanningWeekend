@@ -70,7 +70,7 @@ class UserController {
 	}
 	
 
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	
 	@RequestMapping(value="/test", method = RequestMethod.GET)
 	@ResponseBody
 	public String hello() {
