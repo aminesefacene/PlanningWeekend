@@ -88,7 +88,7 @@ class ConnectionForm extends React.Component {
       let newUser = { "username": this.state.newLogin,
                       "password": this.state.newPassword,
                       "mail": this.state.mailAddress,
-                      "roles": [],
+                      "roles": null,//a verifier...
                       "activities": [],
                       "regions": []
                     }
