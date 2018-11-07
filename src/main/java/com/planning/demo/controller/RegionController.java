@@ -24,7 +24,7 @@ class RegionController {
 	@Autowired
 	private RegionRepository regionRepository;
 	
-
+	@Secured(value = { "ROLE_ADMIN", "ROLE_ETUDIANT" })
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Region> findAll() {

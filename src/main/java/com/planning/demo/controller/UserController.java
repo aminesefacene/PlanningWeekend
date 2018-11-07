@@ -56,7 +56,9 @@ class UserController {
 	public Long findOneUsername(@PathVariable("login") String login, @PathVariable("password") String password) {
 		try {
 			Optional<User> user = userRepository.findByUsername(login);
-			if(user.get().getPassword().equals(password)) {
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(4);
+	        
+			if(encoder.matches(password, user.get().getPassword())) {
 				return user.get().getIdUser();
 			}
 			return (long) -1;
@@ -67,7 +69,7 @@ class UserController {
 	}
 	
 
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	
 	@RequestMapping(value="/test", method = RequestMethod.GET)
 	@ResponseBody
 	public String hello() {

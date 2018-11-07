@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -21,7 +22,7 @@ public class Location implements Serializable{
 	private String nameStreet;
 	private String zipCode;
 	
-	@OneToMany
+	@ManyToMany
 	private List<Activity> activities;
 	
 	@OneToOne

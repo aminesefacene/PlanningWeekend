@@ -10,7 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class User implements Serializable{
@@ -20,20 +22,17 @@ public class User implements Serializable{
 	@Id
 	@GeneratedValue
 	private long idUser;
-	private String familyName;
-	private String firstName;
 	private String username;
 	private String password;
 	private String mail;
-	private String phone;
 	
-	@OneToMany(fetch = FetchType.EAGER)
-	private List<Role> roles;
+	@OneToOne(fetch = FetchType.EAGER)
+	private Role roles;
 	
-	@OneToMany
+	@ManyToMany
 	private List<Activity> activities;
 	
-	@OneToMany
+	@ManyToMany
 	private List<Region> regions;
 	
 	
@@ -41,26 +40,20 @@ public class User implements Serializable{
 		super();
 	}
 
-	public User(String Familyname, String firstName, String userName, String password, String mail, String phone) {
+	public User(String userName, String password, String mail) {
 		super();
-		this.familyName = Familyname;
-		this.firstName = firstName;
 		this.username = userName;
 		this.password = password;
 		this.mail = mail;
-		this.phone = phone;
 		this.activities = new ArrayList<Activity>();
 		this.regions = new ArrayList<Region>();
-		this.roles = new ArrayList<Role>();
+		this.roles = null;
 	}
 
 	public User(User user) {
-		this.familyName = user.getFamilyName();
-		this.firstName = user.getFirstName();
 		this.username = user.getUsername();
 		this.password = user.getPassword();
 		this.mail = user.getMail();
-		this.phone = user.getPhone();
 		this.activities = user.getActivities();
 		this.regions = user.getRegions();
 		this.roles = user.getRoles();
@@ -75,32 +68,12 @@ public class User implements Serializable{
 		this.regions.add(region);
 	}
 	
-	public void addRole(Role role) {
-		this.roles.add(role);
-	}
-
 	public long getIdUser() {
 		return idUser;
 	}
 
 	public void setIdUser(long idUser) {
 		this.idUser = idUser;
-	}
-
-	public String getFamilyName() {
-		return familyName;
-	}
-
-	public void setFamilyName(String familyName) {
-		this.familyName = familyName;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
 	}
 
 	public String getUsername() {
@@ -127,19 +100,11 @@ public class User implements Serializable{
 		this.mail = mail;
 	}
 
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public List<Role> getRoles() {
+	public Role getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<Role> roles) {
+	public void setRoles(Role roles) {
 		this.roles = roles;
 	}
 

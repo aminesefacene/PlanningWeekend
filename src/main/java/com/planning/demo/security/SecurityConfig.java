@@ -42,8 +42,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 			.antMatchers("/activity/create").authenticated()
 			.antMatchers("/activity/update/*").authenticated()
 			.antMatchers("/activity/delete/*").authenticated()
-			.antMatchers("/region/**").authenticated()
-			.antMatchers("/location/**").authenticated()
+			.antMatchers("/region/create").authenticated()
+			.antMatchers("/region/update/*").authenticated()
+			.antMatchers("/region/delete/*").authenticated()
+			.antMatchers("/location/create").authenticated()
+			.antMatchers("/location/update/*").authenticated()
+			.antMatchers("/location/delete/*").authenticated()
+			
 			.anyRequest().permitAll()
 			.and().formLogin().permitAll();
 		

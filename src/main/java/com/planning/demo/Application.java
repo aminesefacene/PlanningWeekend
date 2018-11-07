@@ -4,6 +4,7 @@ package com.planning.demo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.planning.demo.domain.Activity;
 import com.planning.demo.domain.Location;
@@ -37,6 +38,10 @@ public class Application {
         l1.addActivity(a1);
         lr.save(l1);
         
+        Location l2 = new Location(37,"rue bordeaux", "33000", r1);
+        l2.addActivity(a1);
+        lr.save(l2);
+        
         RoleRepository rolerepo = ctx.getBean(RoleRepository.class);
         Role role = new Role("ADMIN");
         rolerepo.save(role);
@@ -46,17 +51,19 @@ public class Application {
         
         
         UserRepository ur = ctx.getBean(UserRepository.class);
-        //BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
-        //String password = encoder.encode("admin");
-        User u1 = new User("Sefacene","Amine","admin","admin","sef@f.f","53421");
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(4);
+        String password = encoder.encode("admin");
+        String password2 = encoder.encode("test");
+        
+        User u1 = new User("admin",password,"sef@f.f");
         u1.addActivity(a1);
         u1.addRegion(r1);
-        u1.addRole(role);
+        u1.setRoles(role);
         ur.save(u1);
-        User u2 = new User("testUser2","testMan","test","test","test@test.test","00000");
-        u2.addActivity(a2);
+        User u2 = new User("test",password2,"test@test.test");
+        u2.addActivity(a1);
         //u2.addRegion(r1);
-        u2.addRole(role1);
+        u2.setRoles(role);
         ur.save(u2);
         
 	}
