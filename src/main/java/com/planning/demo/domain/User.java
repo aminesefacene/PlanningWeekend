@@ -75,7 +75,7 @@ public class User implements Serializable{
 	public void setIdUser(long idUser) {
 		this.idUser = idUser;
 	}
-
+	
 	public String getUsername() {
 		return username;
 	}
@@ -99,7 +99,7 @@ public class User implements Serializable{
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-
+	
 	public Role getRoles() {
 		return roles;
 	}

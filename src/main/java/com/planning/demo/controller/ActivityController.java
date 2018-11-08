@@ -8,8 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +26,7 @@ import com.planning.demo.repository.ActivityRepository;
 
 import io.swagger.annotations.ApiOperation;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/activity")
 class ActivityController {
@@ -35,7 +35,7 @@ class ActivityController {
 	private ActivityRepository activityRepository;
 
 	@ApiOperation(value = "Return all activities" )
-	@Secured(value = { "ROLE_ADMIN", "ROLE_ETUDIANT" })
+	@Secured(value = { "ROLE_ADMIN", "ROLE_UTILISATEUR" })
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Activity> findAll() {
@@ -48,7 +48,7 @@ class ActivityController {
 	}
 
 	@ApiOperation(value = "Return an activity by id" )
-	@Secured(value = { "ROLE_ADMIN", "ROLE_ETUDIANT" })
+	@Secured(value = { "ROLE_ADMIN", "ROLE_UTILISATEUR" })
 	@RequestMapping(value = "/getActivity/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public Activity findOne(@PathVariable("id") Long id) {
@@ -131,14 +131,14 @@ class ActivityController {
 		
 		Activity a1 = new Activity("Football", Level.EASY);
 		Activity a2 = new Activity("Volleyball", Level.EASY);
-		Activity a3 = new Activity("Natation", Level.EASY);
+		Activity a3 = new Activity("Basketball", Level.EASY);
 		//List<Activity> activities = user.getActivities();
 		List<Activity> activities = new ArrayList<>();
 		activities.add(a1);
 		activities.add(a2);
 		activities.add(a3);
 
-		Region region = new Region("blabal","balala","balak");
+		Region region = new Region("Rennes","Ile et Vilaine","Bretagne");
 		Search search = new Search(activities,region);
 		
 		return search;

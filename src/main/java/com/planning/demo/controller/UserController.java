@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,13 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.planning.demo.domain.Activity;
-import com.planning.demo.domain.Region;
 import com.planning.demo.domain.User;
 import com.planning.demo.repository.UserRepository;
 
 import io.swagger.annotations.ApiOperation;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/user")
 class UserController {
@@ -63,7 +62,6 @@ class UserController {
 		try {
 			Optional<User> user = userRepository.findByUsername(login);
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(4);
-	        
 			if(encoder.matches(password, user.get().getPassword())) {
 				return user.get().getIdUser();
 			}

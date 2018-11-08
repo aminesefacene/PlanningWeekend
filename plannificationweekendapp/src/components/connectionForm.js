@@ -27,7 +27,7 @@ const mapStateToProps = (state) => {
 class ConnectionForm extends React.Component {
     constructor(props) {
       super(props);
-      this.state = {login: '', password: '' };
+      this.state = {login: '', password: '', newLogin: '', newPassword:'', mailAddress: '' };
     }
 
     handleChangeLogin(event) {
@@ -37,6 +37,22 @@ class ConnectionForm extends React.Component {
     handleChangePassword(event) {
         this.setState({password: event.target.value});
     }
+
+    handleChangeNewLogin(event) {
+      this.setState({newLogin: event.target.value});
+  }
+
+  handleChangeNewPassword(event) {
+      this.setState({newPassword: event.target.value});
+  }
+
+  handleChangeMailAddress(event) {
+    this.setState({mailAddress: event.target.value});
+  }
+
+  resetAllInput(){
+    this.setState({ login : '', password : '', newLogin : '', newPassword : '', mailAddress : '' });
+  }
 
     getAllLists = () => {
       let url = 'http://localhost:8080/user/getUser/'+this.props.id;
@@ -60,11 +76,29 @@ class ConnectionForm extends React.Component {
     }
 
     connectionUser = () => {
-      let url = 'http://localhost:8080/user/getUserByLogin/'+this.state.login+'/'+this.state.password;
-      axios.get(url).then(response => this.waitConnectionUser(response.data));
+      if(this.state.login==='' || this.state.login===''){
+        //ne fait rien si l'utilisateur ne saisi pas de login ou de mot de passe
+      }else{
+        let url = 'http://localhost:8080/user/getUserByLogin/'+this.state.login+'/'+this.state.password;
+        axios.get(url).then(response => this.waitConnectionUser(response.data));
+      }
+    }
+
+    createUser = () => {
+      let newUser = { "username": this.state.newLogin,
+                      "password": this.state.newPassword,
+                      "mail": this.state.mailAddress,
+                      "roles": null,//a verifier...
+                      "activities": [],
+                      "regions": []
+                    }
+      
+      axios.post('http://localhost:8080/user/create', newUser).then(res => alert("Your account has been created !"));
+      this.resetAllInput();
     }
 
     deconnectionUser = () => {
+      this.resetAllInput();
       this.props.connectUser(undefined);
     }
   
@@ -75,18 +109,30 @@ class ConnectionForm extends React.Component {
         <br/><br/>
         <ConnectedActivityList/>
         <br/><br/>
-        <p>ConnectedRegionList</p>
+        <ConnectedRegionList/>
         </div>
       }else{
         return (
           <div>
+          <h1>Connexion</h1>
           <label>
-            <input type="text" placeholder="login" onChange={this.handleChangeLogin.bind(this)} />
+            <input type="text" value={this.state.login} placeholder="login" onChange={this.handleChangeLogin.bind(this)} />
           </label>
           <label>
-            <input type="password" placeholder="password" onChange={this.handleChangePassword.bind(this)} />
+            <input type="password" value={this.state.password} placeholder="password" onChange={this.handleChangePassword.bind(this)} />
           </label>
           <button onClick={this.connectionUser.bind(this)}>login</button>
+          <h1>Registration</h1>
+          <label>
+            <input type="text" value={this.state.newLogin} placeholder="login" onChange={this.handleChangeNewLogin.bind(this)} />
+          </label>
+          <label>
+            <input type="password" value={this.state.newPassword} placeholder="password" onChange={this.handleChangeNewPassword.bind(this)} />
+          </label>
+          <label>
+            <input type="test" value={this.state.mailAddress} placeholder="mail address" onChange={this.handleChangeMailAddress.bind(this)} />
+          </label>
+          <button onClick={this.createUser.bind(this)}>register</button>
           </div>
         );
       }

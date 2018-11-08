@@ -49,7 +49,7 @@ public class Application {
         Role role = new Role("ADMIN");
         rolerepo.save(role);
 
-        Role role1 = new Role("ETUDIANT");
+        Role role1 = new Role("UTILISATEUR");
         rolerepo.save(role1);
         
         
@@ -63,7 +63,8 @@ public class Application {
         u1.addRegion(r1);
         u1.setRoles(role);
         ur.save(u1);
-        User u2 = new User("test",password2,"test@test.test");
+        User u2 = new User("test", password2,"test@test.test");
+        u2.addActivity(a2);
         u2.addActivity(a1);
         //u2.addRegion(r1);
         u2.setRoles(role);
