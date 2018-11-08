@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.planning.demo.domain.Activity;
 import com.planning.demo.domain.User;
 import com.planning.demo.repository.UserRepository;
 
@@ -86,7 +87,7 @@ class UserController {
 	@ResponseBody
 	public User create(@RequestBody User user) {
 		try {
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(4);
 	        String password = encoder.encode(user.getPassword());
 	        user.setPassword(password);
 	        
@@ -105,7 +106,7 @@ class UserController {
 	public User update(@PathVariable("id") Long id, @RequestBody User user) {
 		try {
 			user.setIdUser(id);
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(4);
 	        String password = encoder.encode(user.getPassword());
 	        user.setPassword(password);
 
@@ -115,7 +116,6 @@ class UserController {
 		}
 		return null;
 	}
-
 	
 	@ApiOperation(value = "Delete a user" )
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
