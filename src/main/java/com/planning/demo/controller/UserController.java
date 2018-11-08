@@ -19,6 +19,8 @@ import com.planning.demo.domain.Region;
 import com.planning.demo.domain.User;
 import com.planning.demo.repository.UserRepository;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/user")
 class UserController {
@@ -28,7 +30,7 @@ class UserController {
 	
 	
 	
-
+	@ApiOperation(value = "Return all users" )
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	@ResponseBody
 	public List<User> findAll() {
@@ -40,6 +42,8 @@ class UserController {
 		return null;
 	}
 
+	
+	@ApiOperation(value = "Return a user by id" )
 	@RequestMapping(value = "/getUser/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public User findOne(@PathVariable("id") Long id) {
@@ -51,6 +55,8 @@ class UserController {
 		return null;
 	}
 	
+	
+	@ApiOperation(value = "Authentification" )
 	@RequestMapping(value = "/getUserByLogin/{login}/{password}", method = RequestMethod.GET)
 	@ResponseBody
 	public Long findOneUsername(@PathVariable("login") String login, @PathVariable("password") String password) {
@@ -69,13 +75,15 @@ class UserController {
 	}
 	
 
-	
+	@ApiOperation(value = "Return hello" )
 	@RequestMapping(value="/test", method = RequestMethod.GET)
 	@ResponseBody
 	public String hello() {
-		return "salut";
+		return "hello";
 	}
 	
+	
+	@ApiOperation(value = "Create a user" )
 	@RequestMapping(value="/create", method = RequestMethod.POST)
 	@ResponseBody
 	public User create(@RequestBody User user) {
@@ -92,6 +100,8 @@ class UserController {
 		
 	}
 
+	
+	@ApiOperation(value = "Update a user" )
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public User update(@PathVariable("id") Long id, @RequestBody User user) {
@@ -108,6 +118,8 @@ class UserController {
 		return null;
 	}
 
+	
+	@ApiOperation(value = "Delete a user" )
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public void delete(@PathVariable("id") Long id) {

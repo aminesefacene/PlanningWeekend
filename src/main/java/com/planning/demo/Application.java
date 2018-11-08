@@ -4,6 +4,7 @@ package com.planning.demo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.planning.demo.domain.Activity;
@@ -19,9 +20,11 @@ import com.planning.demo.repository.RoleRepository;
 import com.planning.demo.repository.UserRepository;
 
 @SpringBootApplication
+@EnableScheduling
 public class Application {
 
 	public static void main(String[] args) {
+       		
 		ApplicationContext ctx = SpringApplication.run(Application.class, args);
         ActivityRepository ar = ctx.getBean(ActivityRepository.class);
         Activity a1 = new Activity("Volleyball", Level.EASY); 
@@ -65,6 +68,8 @@ public class Application {
         //u2.addRegion(r1);
         u2.setRoles(role);
         ur.save(u2);
+        
+        
         
 	}
 }

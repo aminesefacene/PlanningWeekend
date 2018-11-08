@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.planning.demo.domain.Location;
 import com.planning.demo.repository.LocationRepository;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/location")
 class LocationController {
@@ -25,7 +27,7 @@ class LocationController {
 	private LocationRepository locationRepository;
 	
 	
-	
+	@ApiOperation(value = "Return all locations" )
 	@Secured(value={"ROLE_ADMIN","ROLE_ETUDIANT"})
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	@ResponseBody
@@ -38,6 +40,7 @@ class LocationController {
 		return null;
 	}
 
+	@ApiOperation(value = "Return a location by id" )
 	@Secured(value={"ROLE_ADMIN","ROLE_ETUDIANT"})
 	@RequestMapping(value = "/getLocation/{id}", method = RequestMethod.GET)
 	@ResponseBody
@@ -52,12 +55,15 @@ class LocationController {
 	
 
 
+	@ApiOperation(value = "Return hello" )
 	@RequestMapping(value="/test", method = RequestMethod.GET)
 	@ResponseBody
 	public String hello() {
-		return "salut";
+		return "hello";
 	}
 	
+	
+	@ApiOperation(value = "Create a location" )
 	@Secured(value={"ROLE_ADMIN"})
 	@RequestMapping(value="/create", method = RequestMethod.POST)
 	@ResponseBody
@@ -71,6 +77,8 @@ class LocationController {
 		
 	}
 
+	
+	@ApiOperation(value = "Update a location" )
 	@Secured(value={"ROLE_ADMIN"})
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
 	@ResponseBody
@@ -84,6 +92,8 @@ class LocationController {
 		return null;
 	}
 
+	
+	@ApiOperation(value = "Delete a location" )
 	@Secured(value={"ROLE_ADMIN"})
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	@ResponseBody

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.planning.demo.domain.Region;
 import com.planning.demo.repository.RegionRepository;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/region")
 class RegionController {
@@ -24,6 +26,8 @@ class RegionController {
 	@Autowired
 	private RegionRepository regionRepository;
 	
+	
+	@ApiOperation(value = "Return all regions" )
 	@Secured(value = { "ROLE_ADMIN", "ROLE_ETUDIANT" })
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	@ResponseBody
@@ -36,6 +40,8 @@ class RegionController {
 		return null;
 	}
 
+	
+	@ApiOperation(value = "Return gerion by id" )
 	@RequestMapping(value = "/getRegion/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public Region findOne(@PathVariable("id") Long id) {
@@ -48,13 +54,15 @@ class RegionController {
 	}
 	
 
-
+	@ApiOperation(value = "Return hello" )
 	@RequestMapping(value="/test", method = RequestMethod.GET)
 	@ResponseBody
 	public String hello() {
-		return "salut";
+		return "hello";
 	}
 	
+	
+	@ApiOperation(value = "Create a region" )
 	@RequestMapping(value="/create", method = RequestMethod.POST)
 	@ResponseBody
 	public Region create(@RequestBody Region region) {
@@ -67,6 +75,8 @@ class RegionController {
 		
 	}
 
+	
+	@ApiOperation(value = "Update a region" )
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Region update(@PathVariable("id") Long id, @Valid @RequestBody Region region) {
@@ -79,6 +89,8 @@ class RegionController {
 		return null;
 	}
 
+	
+	@ApiOperation(value = "Delete a region" )
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public void delete(@PathVariable("id") Long id) {

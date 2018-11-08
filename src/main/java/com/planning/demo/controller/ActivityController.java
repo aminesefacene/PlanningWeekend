@@ -25,6 +25,8 @@ import com.planning.demo.domain.Search;
 import com.planning.demo.domain.User;
 import com.planning.demo.repository.ActivityRepository;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/activity")
 class ActivityController {
@@ -32,6 +34,7 @@ class ActivityController {
 	@Autowired
 	private ActivityRepository activityRepository;
 
+	@ApiOperation(value = "Return all activities" )
 	@Secured(value = { "ROLE_ADMIN", "ROLE_ETUDIANT" })
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	@ResponseBody
@@ -44,6 +47,7 @@ class ActivityController {
 		return null;
 	}
 
+	@ApiOperation(value = "Return an activity by id" )
 	@Secured(value = { "ROLE_ADMIN", "ROLE_ETUDIANT" })
 	@RequestMapping(value = "/getActivity/{id}", method = RequestMethod.GET)
 	@ResponseBody
@@ -57,12 +61,14 @@ class ActivityController {
 		return null;
 	}
 
+	@ApiOperation(value = "return hello" )
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	@ResponseBody
 	public String hello() {
-		return "salut";
+		return "hello";
 	}
 
+	@ApiOperation(value = "Create an activity" )
 	@Secured(value = { "ROLE_ADMIN" })
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@ResponseBody
@@ -76,6 +82,7 @@ class ActivityController {
 
 	}
 
+	@ApiOperation(value = "Update an activity" )
 	@Secured(value = { "ROLE_ADMIN" })
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
 	@ResponseBody
@@ -90,6 +97,7 @@ class ActivityController {
 		return null;
 	}
 
+	@ApiOperation(value = "Delete an activity" )
 	@Secured(value = { "ROLE_ADMIN" })
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
@@ -101,6 +109,8 @@ class ActivityController {
 		}
 	}
 
+	
+	@ApiOperation(value = "Return a list of locations" )
 	@RequestMapping(value = "/resultSearch", method = RequestMethod.POST)
 	public List<Location> selectActivities(@RequestBody Search search) {
 
@@ -112,6 +122,7 @@ class ActivityController {
 		return location.stream().filter(loc-> isActivityEquals(loc.getActivities(), activities)).collect(Collectors.toList());
 		
 	}
+	
 	
 	
 	@RequestMapping(value = "/getSearch", method = RequestMethod.GET)
