@@ -13,6 +13,8 @@ export default function rootReducer(state =
 			return { ...state, activityList: action.activityList }
 		case 'ADD_USER_ACTIVITY':
 			return { ...state, activityList: [ ...state.activityList, action.newActivity] }
+		/*case 'REMOVE_USER_ACTIVITY':
+			return { ...state, activityList: [ ...state.activityList, action.newActivity] }*/
 		case 'GET_USER_REGIONS':
 			return { ...state, regionList: action.regionList }
 		case 'GET_ALL_ACTIVITIES':
