@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
-import { getId, connectUser, getUserActivities, getUserRegions, getAllActivities, getAllRegions } from '../actions/actions'
+import { getUserMailAddress, getId, connectUser, getUserActivities, getUserRegions, getAllActivities, getAllRegions } from '../actions/actions'
 import { User } from '../user'
 import { ConnectedActivityList } from './activityList'
 import { ConnectedRegionList } from './regionList'
@@ -13,13 +13,15 @@ const mapDispatchToProps = dispatch => {
     getUserActivities: activities => dispatch(getUserActivities(activities)),
     getUserRegions: regions => dispatch(getUserRegions(regions)),
     getAllActivities: allActivities => dispatch(getAllActivities(allActivities)),
-    getAllRegions: allRegions => dispatch(getAllRegions(allRegions))
+    getAllRegions: allRegions => dispatch(getAllRegions(allRegions)),
+    getUserMailAddress: mailAddress => dispatch(getUserMailAddress(mailAddress))
   };
 };
 
 const mapStateToProps = (state) => {
   return {
     id: state.id,
+    mailAddress: state.mailAddress,
     user: state.user
   }
 }
@@ -27,7 +29,7 @@ const mapStateToProps = (state) => {
 class ConnectionForm extends React.Component {
     constructor(props) {
       super(props);
-      this.state = {login: '', password: '', newLogin: '', newPassword:'', mailAddress: '' };
+      this.state = {login: '', password: '', newLogin: '', newPassword:'', newMailAddress: '' };
     }
 
     handleChangeLogin(event) {
@@ -47,18 +49,20 @@ class ConnectionForm extends React.Component {
   }
 
   handleChangeMailAddress(event) {
-    this.setState({mailAddress: event.target.value});
+    this.setState({newMailAddress: event.target.value});
   }
 
   resetAllInput(){
-    this.setState({ login : '', password : '', newLogin : '', newPassword : '', mailAddress : '' });
+    this.setState({ login : '', password : '', mailAddress: '', newLogin : '', newPassword : '', newMailAddress : '' });
   }
 
     getAllLists = () => {
       let url = 'http://localhost:8080/user/getUser/'+this.props.id;
       axios.get(url).then(response => this.props.getUserActivities(response.data.activities));
       axios.get(url).then(response => this.props.getUserRegions(response.data.regions));
+      axios.get(url).then(response => this.props.getUserMailAddress(response.data.mail));
       let urlAllActivities = 'http://localhost:8080/activity/getAll';
+      //vérifier si je récupere plusieurs fois la meme activitée et ne pas ajouter quand c'est le cas
       axios.get(urlAllActivities).then(response => this.props.getAllActivities(response.data));
       let urlAllRegions = 'http://localhost:8080/region/getAll';
       axios.get(urlAllRegions).then(response => this.props.getAllRegions(response.data));
@@ -69,14 +73,14 @@ class ConnectionForm extends React.Component {
       if(this.props.id===-1){
         this.props.connectUser(undefined);
       }else{
-        let user = new User(this.state.login, this.state.password);
+        let user = new User(this.state.login, this.state.password, this.props.mailAddress);
         this.getAllLists();
         this.props.connectUser(user);
       }
     }
 
     connectionUser = () => {
-      if(this.state.login==='' || this.state.login===''){
+      if(this.state.login==='' || this.state.password===''){
         //ne fait rien si l'utilisateur ne saisi pas de login ou de mot de passe
       }else{
         let url = 'http://localhost:8080/user/getUserByLogin/'+this.state.login+'/'+this.state.password;
@@ -87,7 +91,7 @@ class ConnectionForm extends React.Component {
     createUser = () => {
       let newUser = { "username": this.state.newLogin,
                       "password": this.state.newPassword,
-                      "mail": this.state.mailAddress,
+                      "mail": this.state.newMailAddress,
                       "roles": null,//a verifier...
                       "activities": [],
                       "regions": []
@@ -110,6 +114,8 @@ class ConnectionForm extends React.Component {
         <ConnectedActivityList/>
         <br/><br/>
         <ConnectedRegionList/>
+        <br/><br/>
+        <p>Vous recevrez des propositions d'activitées mardi prochain sur l'adresse {this.props.mailAddress}</p>
         </div>
       }else{
         return (
@@ -130,7 +136,7 @@ class ConnectionForm extends React.Component {
             <input type="password" value={this.state.newPassword} placeholder="password" onChange={this.handleChangeNewPassword.bind(this)} />
           </label>
           <label>
-            <input type="test" value={this.state.mailAddress} placeholder="mail address" onChange={this.handleChangeMailAddress.bind(this)} />
+            <input type="test" value={this.state.newMailAddress} placeholder="mail address" onChange={this.handleChangeMailAddress.bind(this)} />
           </label>
           <button onClick={this.createUser.bind(this)}>register</button>
           </div>

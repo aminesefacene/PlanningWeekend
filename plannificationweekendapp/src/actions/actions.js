@@ -18,6 +18,18 @@ export const getAllActivities = (AllActivities) => {
     return { type: 'GET_ALL_ACTIVITIES', availableActivities: AllActivities}
 }
 
+export const addUserActivity = (activity) => {
+    return { type: 'ADD_USER_ACTIVITY', newActivity: activity}
+}
+
+export const addUserRegion = (region) => {
+    return { type: 'ADD_USER_REGION', newRegion: region}
+}
+
 export const getAllRegions = (AllRegions) => {
     return { type: 'GET_ALL_REGIONS', availableRegions: AllRegions}
+}
+
+export const getUserMailAddress = (m) => {
+    return { type: 'GET_USER_MAILADDRESS', mailAddress: m}
 }

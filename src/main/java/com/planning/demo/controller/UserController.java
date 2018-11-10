@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.planning.demo.domain.Activity;
 import com.planning.demo.domain.User;
 import com.planning.demo.repository.UserRepository;
 
@@ -115,7 +116,6 @@ class UserController {
 		}
 		return null;
 	}
-
 	
 	@ApiOperation(value = "Delete a user" )
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
