@@ -86,7 +86,7 @@ class UserController {
 	@ResponseBody
 	public User create(@RequestBody User user) {
 		try {
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(4);
 	        String password = encoder.encode(user.getPassword());
 	        user.setPassword(password);
 	        
@@ -105,7 +105,7 @@ class UserController {
 	public User update(@PathVariable("id") Long id, @RequestBody User user) {
 		try {
 			user.setIdUser(id);
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(4);
 	        String password = encoder.encode(user.getPassword());
 	        user.setPassword(password);
 

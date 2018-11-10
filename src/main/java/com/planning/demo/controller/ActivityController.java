@@ -1,14 +1,21 @@
 package com.planning.demo.controller;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.util.SocketUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +23,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
 import com.planning.demo.domain.Activity;
 import com.planning.demo.domain.Level;
 import com.planning.demo.domain.Location;
@@ -23,6 +34,7 @@ import com.planning.demo.domain.Region;
 import com.planning.demo.domain.Search;
 import com.planning.demo.domain.User;
 import com.planning.demo.repository.ActivityRepository;
+
 
 import io.swagger.annotations.ApiOperation;
 
@@ -114,15 +126,56 @@ class ActivityController {
 	@RequestMapping(value = "/resultSearch", method = RequestMethod.POST)
 	public List<Location> selectActivities(@RequestBody Search search) {
 
-		Region region = search.getRegion();
-		
-		List<Location> location = activityRepository.getAllRes(region.getRegion(), region.getDepartment(), region.getCity());
+		List<Region> regions = search.getRegions();
+		List<Location> location = new ArrayList<>();
 		List<Activity> activities = search.getActivities();
 		
-		return location.stream().filter(loc-> isActivityEquals(loc.getActivities(), activities)).collect(Collectors.toList());
+		List<Location> locationFinal = new ArrayList<>();
+		
+		for (int i = 0; i < regions.size(); i++) {
+			location = activityRepository.getAllRes(regions.get(i).getRegion(), regions.get(i).getDepartment(), regions.get(i).getCity());
+			location.stream().filter(loc-> isActivityEquals(loc.getActivities(), activities)).collect(Collectors.toList()); 
+			locationFinal.addAll(location);
+		}
+		
+		return locationFinal;
 		
 	}
 	
+	@RequestMapping(value = "/result", method = RequestMethod.POST)
+	public List<Location> select(@RequestBody Search search) {
+
+		List<Region> regions = search.getRegions();
+		List<Location> location = new ArrayList<>();
+		List<Activity> activities = search.getActivities();
+		
+		List<Location> locationFinal = new ArrayList<>();
+		
+		for (int i = 0; i < regions.size(); i++) {
+			location = activityRepository.getAllRes(regions.get(i).getRegion(), regions.get(i).getDepartment(), regions.get(i).getCity());
+			location.stream().filter(loc-> isActivityEquals(loc.getActivities(), activities)).collect(Collectors.toList()); 
+			locationFinal.addAll(location);
+		}
+		
+		return locationFinal; 
+	}
+	
+	@RequestMapping(value = "/weather", method = RequestMethod.GET)
+	public HttpResponse<JsonNode> show() throws UnirestException {
+	//Method body
+	//In the method body you should make a request to the openweather server with an api key which you can get by registering in the website. You can achieve this with Unirest library (it's the easiest way)
+	HttpResponse<JsonNode> response = Unirest.get("http://api.openweathermap.org/data/2.5/weather")
+	                            .queryString("APPID","a70aaf666a6b23f772a86455a7c9776d")
+	                            .queryString("city","London")
+	                            .header("content-type","application/json")
+	                            .asJson();
+
+	return response;
+
+	}
+	
+
+    	
 	
 	
 	@RequestMapping(value = "/getSearch", method = RequestMethod.GET)
@@ -132,15 +185,19 @@ class ActivityController {
 		Activity a1 = new Activity("Football", Level.EASY);
 		Activity a2 = new Activity("Volleyball", Level.EASY);
 		Activity a3 = new Activity("Basketball", Level.EASY);
-		//List<Activity> activities = user.getActivities();
 		List<Activity> activities = new ArrayList<>();
 		activities.add(a1);
 		activities.add(a2);
 		activities.add(a3);
 
-		Region region = new Region("Rennes","Ile et Vilaine","Bretagne");
-		Search search = new Search(activities,region);
-		
+		List<Region> regions = new ArrayList<>();
+		Region region = new Region("Bretagne","Ile et Vilaine","Rennes");
+		Region region2 = new Region("Aquitaine", "Gironde", "Bordeaux");
+		regions.add(region);
+		regions.add(region2);
+	
+		Search search = new Search(activities, regions);
+				
 		return search;
 	}
 	
@@ -149,7 +206,8 @@ class ActivityController {
 		
 		for(Activity act:activity) {
 			for(Activity acts:activities) {
-				if(act.getIdActivity() == act.getIdActivity()) {
+				if(act.getIdActivity() == acts.getIdActivity()) {
+					System.out.println(act.getIdActivity() + " "+ act.getName() +  " " + acts.getIdActivity() + " " + acts.getName());
 					return true;
 				}
 			}

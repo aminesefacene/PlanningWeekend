@@ -4,34 +4,40 @@ import java.util.List;
 
 public class Search {
 	
-	private long idSearch;
 	private List<Activity> activities;
-	private Region region;
-	
+	private List<Region> regions; 
 	
 	public Search() {
 		super();
 	}
-
-	public Search(List<Activity> activities, Region region) {
+	
+	public Search(List<Activity> activities, List<Region> regions) {
 		super();
 		this.activities = activities;
-		this.region = region;
+		this.regions = regions;
 	}
 	
+	public Search(User user) {
+		super();
+		this.activities = user.getActivities();
+		this.regions = user.getRegions();
+		
+	}
+
 	public List<Activity> getActivities() {
 		return activities;
 	}
 	public void setActivities(List<Activity> activities) {
 		this.activities = activities;
 	}
-	public Region getRegion() {
-		return region;
-	}
-	public void setRegion(Region region) {
-		this.region = region;
+
+	public List<Region> getRegions(){
+		return regions;
 	}
 	
+	public void setRegions(List<Region> region) {
+		this.regions = region;
+	}
 
 	
 }

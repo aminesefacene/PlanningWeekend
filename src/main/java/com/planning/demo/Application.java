@@ -27,22 +27,30 @@ public class Application {
        		
 		ApplicationContext ctx = SpringApplication.run(Application.class, args);
         ActivityRepository ar = ctx.getBean(ActivityRepository.class);
-        Activity a1 = new Activity("Volleyball", Level.EASY); 
-        ar.save(a1);
         Activity a2 = new Activity("Basketball", Level.EASY); 
         ar.save(a2);
+        
+        Activity a1 = new Activity("Volleyball", Level.EASY); 
+        ar.save(a1);
+
+        
         
         RegionRepository rr = ctx.getBean(RegionRepository.class);
         Region r1 = new Region("Bretagne","Ile et Vilaine","Rennes");
         rr.save(r1);
         
+        Region r2 = new Region("Aquitaine", "Gironde", "Bordeaux");
+        rr.save(r2);
+        
         LocationRepository lr = ctx.getBean(LocationRepository.class);
         Location l1 = new Location(37,"rue bernard", "35000", r1);
         l1.addActivity(a1);
+        l1.addActivity(a2);
         lr.save(l1);
         
-        Location l2 = new Location(37,"rue bordeaux", "33000", r1);
+        Location l2 = new Location(37,"rue bordeaux", "33000", r2);
         l2.addActivity(a1);
+        l2.addActivity(a2);
         lr.save(l2);
         
         RoleRepository rolerepo = ctx.getBean(RoleRepository.class);
@@ -67,7 +75,7 @@ public class Application {
         u2.addActivity(a2);
         u2.addActivity(a1);
         //u2.addRegion(r1);
-        u2.setRoles(role);
+        u2.setRoles(role1);
         ur.save(u2);
         
         

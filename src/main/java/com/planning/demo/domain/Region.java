@@ -1,6 +1,7 @@
 package com.planning.demo.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -20,6 +22,8 @@ public class Region implements Serializable {
 	protected String department;
 	protected String city;
 	
+	@ManyToMany(mappedBy = "regions")
+	private List<User> user;
 	
 	
 	public Region() {
