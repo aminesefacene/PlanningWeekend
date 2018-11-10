@@ -13,6 +13,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = (state) => {
     return {
         id: state.id,
+        role: state.role,
         user: state.user,
         mailAddress: state.mailAddress,
         userRegions: state.regionList,
@@ -66,7 +67,7 @@ class RegionList extends React.Component {
                     let newUser = { "username": this.props.user.login,
                       "password": this.props.user.password,
                       "mail": this.props.mailAddress,
-                      "roles": {"idRole":56,"role":"UTILISATEUR"},//a changer
+                      "roles": this.props.role,
                       "activities": this.props.userActivities,
                       "regions": newRegions
                     }
@@ -98,7 +99,7 @@ class RegionList extends React.Component {
                     let newUser = { "username": this.props.user.login,
                       "password": this.props.user.password,
                       "mail": this.props.mailAddress,
-                      "roles": {"idRole":56,"role":"UTILISATEUR"},//a changer
+                      "roles": this.props.role,
                       "activities": this.props.userActivities,
                       "regions": newRegions
                     }

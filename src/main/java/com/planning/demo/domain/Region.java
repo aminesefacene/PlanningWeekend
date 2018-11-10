@@ -28,7 +28,6 @@ public class Region implements Serializable {
 	
 	public Region() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 

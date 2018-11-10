@@ -33,3 +33,7 @@ export const getAllRegions = (AllRegions) => {
 export const getUserMailAddress = (m) => {
     return { type: 'GET_USER_MAILADDRESS', mailAddress: m}
 }
+
+export const getUserRole = (r) => {
+    return { type: 'GET_USER_ROLE', role: r}
+}

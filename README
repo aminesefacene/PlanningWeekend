@@ -1,0 +1,9 @@
+Ce projet à pour objectif de proposer une api et une application web de planification de week-end.
+
+Fonctionnalités supportés :
+-L'utilisateur peut créer un compte et se connecter à l'application.
+-L'utilisateur peut sélectionner/retirer des activitées sportives et des villes à ajouter à son compte.
+-L'utilisateur recevra un email chaque semaine lui indiquant les activitées sportives disponibles ainsi que les lieux ou il pourra les pratiquer.
+
+fonctionnalités encore à développer:
+-faire appel à une api météo afin de ne retourner que les activitées sportives pratiquées dans des lieux ou la météo est favorable

@@ -156,7 +156,7 @@ class ActivityController {
 							}
 						}
 					}
-
+					
 					rs = new ResultSearch();
 					rs.setEmail(users.get(s).getMail());
 					rs.setActivities(activityProvisoire);

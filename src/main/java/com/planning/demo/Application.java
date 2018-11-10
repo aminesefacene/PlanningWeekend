@@ -27,8 +27,6 @@ public class Application {
        		
 		ApplicationContext ctx = SpringApplication.run(Application.class, args);
         ActivityRepository ar = ctx.getBean(ActivityRepository.class);
-        Activity a2 = new Activity("Basketball", Level.EASY); 
-        ar.save(a2);
 
         //Mise en place de la base		
         Activity a1_1 = new Activity("Football", Level.EASY); 

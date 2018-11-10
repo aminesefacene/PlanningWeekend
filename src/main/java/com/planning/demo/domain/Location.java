@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -25,7 +26,7 @@ public class Location implements Serializable{
 	@ManyToMany
 	private List<Activity> activities;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="idRegion")
 	private Region region;
 	
