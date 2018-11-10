@@ -1,0 +1,32 @@
+Ce projet à pour objectif de proposer une api et une application web de planification de week-end.
+
+Fonctionnalités supportés :
+-L'utilisateur peut créer un compte et se connecter à l'application.
+-L'utilisateur peut sélectionner/retirer des activitées sportives et des villes à ajouter à son compte.
+-L'utilisateur recevra un email chaque semaine lui indiquant les activitées sportives disponibles ainsi que les lieux ou il pourra les pratiquer.
+
+Fonctionnalités encore à développer:
+-faire appel à une api météo afin de ne retourner que les activitées sportives pratiquées dans des lieux ou la météo est favorable
+-vérification d'adresse mail valide quand l'utilisateur s'inscrit
+
+
+Lancement de l'application : 
+	- se positionner à la racine du projet
+	- cd /plannificationweekendapp
+	- npm start
+	- un utilisateur ayant les logs : admin/admin est déjà préconfiguré
+
+Lancement de l'api :
+	- charger le projet dans un IDE
+	- lancer le projet en tant que spring boot app
+
+
+Fonctionnement envoi de mail:
+
+A chaque lancement d'application, le scheduleur qui permet l'envoie de mails est lancé. La fonction sendEmail() dans la classe ActivityController est configué pour envoyer des emails à tous les utilisateurs chaque mardi et mercredi à 10h15 contenant la liste des activites à faire pour le weekend. Pour tester l'envoi de mail, il faut changer le contenu de @Scheduler(cron = "0 15 10 ? * TUE-WED") à @Scheduler(fixedDelay = 30000) pour l'envoi des emails chaques 30 secondes. Pour voir le résultat, il faut se connecter au site mailtrap : 
+
+Site : https://mailtrap.io/
+Email : bib.num.bej@gmail.com
+Password : Univrennes1
+
+L'envoi de mail s'effectue correctement mais malheureusement avec Scheduler, la fonction ne charge pas les données et par conséquent, il n y a pas de liste d'activités. Pour que ça marche, il faut se positioner sur localhost:8080/activity/sendEmail et envoyer. La, on constate que les emails sont bien envoyé et avec le contenu attendu.

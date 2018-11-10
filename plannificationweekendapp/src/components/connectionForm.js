@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
-import { getUserMailAddress, getId, connectUser, getUserActivities, getUserRegions, getAllActivities, getAllRegions } from '../actions/actions'
+import { getUserRole, getUserMailAddress, getId, connectUser, getUserActivities, getUserRegions, getAllActivities, getAllRegions } from '../actions/actions'
 import { User } from '../user'
 import { ConnectedActivityList } from './activityList'
 import { ConnectedRegionList } from './regionList'
@@ -14,7 +14,8 @@ const mapDispatchToProps = dispatch => {
     getUserRegions: regions => dispatch(getUserRegions(regions)),
     getAllActivities: allActivities => dispatch(getAllActivities(allActivities)),
     getAllRegions: allRegions => dispatch(getAllRegions(allRegions)),
-    getUserMailAddress: mailAddress => dispatch(getUserMailAddress(mailAddress))
+    getUserMailAddress: mailAddress => dispatch(getUserMailAddress(mailAddress)),
+    getUserRole: r => dispatch(getUserRole(r))
   };
 };
 
@@ -61,16 +62,18 @@ class ConnectionForm extends React.Component {
       axios.get(url).then(response => this.props.getUserActivities(response.data.activities));
       axios.get(url).then(response => this.props.getUserRegions(response.data.regions));
       axios.get(url).then(response => this.props.getUserMailAddress(response.data.mail));
+      axios.get(url).then(response => this.props.getUserRole(response.data.roles));
       let urlAllActivities = 'http://localhost:8080/activity/getAll';
-      //vérifier si je récupere plusieurs fois la meme activitée et ne pas ajouter quand c'est le cas
       axios.get(urlAllActivities).then(response => this.props.getAllActivities(response.data));
       let urlAllRegions = 'http://localhost:8080/region/getAll';
       axios.get(urlAllRegions).then(response => this.props.getAllRegions(response.data));
     }
 
-    waitConnectionUser(data) {//fonction permettant d'attendre le résultat de la promesse avant de changer l'affichage
+    //fonction permettant d'attendre le résultat de la promesse avant de changer l'affichage
+    waitConnectionUser(data) {
       this.props.getId(data);
       if(this.props.id===-1){
+        alert("identifiant ou mot de passe incorrect !");
         this.props.connectUser(undefined);
       }else{
         let user = new User(this.state.login, this.state.password, this.props.mailAddress);
@@ -92,7 +95,7 @@ class ConnectionForm extends React.Component {
       let newUser = { "username": this.state.newLogin,
                       "password": this.state.newPassword,
                       "mail": this.state.newMailAddress,
-                      "roles": null,//a verifier...
+                      "roles": null, //le role sera attribué quand l'utilsateur ajoutera des activités ou régions
                       "activities": [],
                       "regions": []
                     }
@@ -122,21 +125,21 @@ class ConnectionForm extends React.Component {
           <div>
           <h1>Connexion</h1>
           <label>
-            <input type="text" value={this.state.login} placeholder="login" onChange={this.handleChangeLogin.bind(this)} />
+            <input type="text" value={this.state.login} placeholder="identifiant" onChange={this.handleChangeLogin.bind(this)} />
           </label>
           <label>
-            <input type="password" value={this.state.password} placeholder="password" onChange={this.handleChangePassword.bind(this)} />
+            <input type="password" value={this.state.password} placeholder="mot de passe" onChange={this.handleChangePassword.bind(this)} />
           </label>
           <button onClick={this.connectionUser.bind(this)}>login</button>
-          <h1>Registration</h1>
+          <h1>Inscription</h1>
           <label>
-            <input type="text" value={this.state.newLogin} placeholder="login" onChange={this.handleChangeNewLogin.bind(this)} />
+            <input type="text" value={this.state.newLogin} placeholder="identifiant" onChange={this.handleChangeNewLogin.bind(this)} />
           </label>
           <label>
-            <input type="password" value={this.state.newPassword} placeholder="password" onChange={this.handleChangeNewPassword.bind(this)} />
+            <input type="password" value={this.state.newPassword} placeholder="mot de passe" onChange={this.handleChangeNewPassword.bind(this)} />
           </label>
           <label>
-            <input type="test" value={this.state.newMailAddress} placeholder="mail address" onChange={this.handleChangeMailAddress.bind(this)} />
+            <input type="test" value={this.state.newMailAddress} placeholder="address email" onChange={this.handleChangeMailAddress.bind(this)} />
           </label>
           <button onClick={this.createUser.bind(this)}>register</button>
           </div>

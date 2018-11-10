@@ -13,6 +13,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = (state) => {
     return {
         id: state.id,
+        role: state.role,
         user: state.user,
         mailAddress: state.mailAddress,
         userActivities: state.activityList,
@@ -44,8 +45,12 @@ class ActivityList extends React.Component {
     }
 
     displayAllActivities = () => {
+        let activityListNoDuplicate=[];
         var Data = this.props.allActivities, MakeItem = function(X) {
-              return <option key={X.name+"|"+X.level+"|key"}>{X.name}</option>
+            if(!activityListNoDuplicate.includes(X.name)){
+                activityListNoDuplicate.push(X.name);
+                return <option key={X.name}>{X.name}</option>
+            }
         };
         return Data.map(MakeItem);
     }
@@ -70,7 +75,7 @@ class ActivityList extends React.Component {
                     let newUser = { "username": this.props.user.login,
                       "password": this.props.user.password,
                       "mail": this.props.mailAddress,
-                      "roles": {"idRole":56,"role":"UTILISATEUR"},//a changer
+                      "roles": this.props.role,
                       "activities": newActivities,
                       "regions": this.props.userRegions
                     }
@@ -102,7 +107,7 @@ class ActivityList extends React.Component {
                     let newUser = { "username": this.props.user.login,
                       "password": this.props.user.password,
                       "mail": this.props.mailAddress,
-                      "roles": {"idRole":56,"role":"UTILISATEUR"},//a changer
+                      "roles": this.props.role,
                       "activities": newActivities,
                       "regions": this.props.userRegions
                     }

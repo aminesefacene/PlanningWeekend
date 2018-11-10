@@ -2,7 +2,6 @@ package com.planning.demo.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +34,7 @@ import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin
 @RestController
+@Component
 @RequestMapping("/activity")
 class ActivityController {
 
@@ -46,7 +47,7 @@ class ActivityController {
 
 	private Logger logger = LoggerFactory.getLogger(ActivityController.class);	
 	
-	
+
 	@ApiOperation(value = "Return all activities" )
 	@Secured(value = { "ROLE_ADMIN", "ROLE_UTILISATEUR" })
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
@@ -122,7 +123,6 @@ class ActivityController {
 		}
 	}
 
-	
 	@ApiOperation(value = "Return propositions of activities for week end for the user" )
 	@RequestMapping(value = "/resultSearch", method = RequestMethod.GET)
 	public List<ResultSearch> select() {
@@ -160,7 +160,7 @@ class ActivityController {
 							}
 						}
 					}
-
+					
 					rs = new ResultSearch();
 					rs.setEmail(users.get(s).getMail());
 					rs.setActivities(activityProvisoire);
@@ -177,6 +177,7 @@ class ActivityController {
 		
 		return res; 
 	}
+
 	
 	//Email will be send every tuesday-wednesday at 10.15 am
 	//To test sending emails, please replace @Scheduled(fixedDelay = 30000) for sending every 30 secondes

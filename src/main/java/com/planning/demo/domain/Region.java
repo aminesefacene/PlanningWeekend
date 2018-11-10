@@ -6,11 +6,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class Region implements Serializable {
@@ -28,7 +24,6 @@ public class Region implements Serializable {
 	
 	public Region() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 
@@ -62,6 +57,18 @@ public class Region implements Serializable {
 
 	public void setRegion(String region) {
 		this.region = region;
+	}
+
+
+
+	public List<User> getUser() {
+		return user;
+	}
+
+
+
+	public void setUser(List<User> user) {
+		this.user = user;
 	}
 
 

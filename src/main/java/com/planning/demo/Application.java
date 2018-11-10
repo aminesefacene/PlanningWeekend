@@ -1,11 +1,9 @@
 package com.planning.demo;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.mail.MailException;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -14,7 +12,6 @@ import com.planning.demo.domain.Location;
 import com.planning.demo.domain.Region;
 import com.planning.demo.domain.Role;
 import com.planning.demo.domain.User;
-import com.planning.demo.email.NotificationEmail;
 import com.planning.demo.domain.Level;
 import com.planning.demo.repository.ActivityRepository;
 import com.planning.demo.repository.LocationRepository;
@@ -25,15 +22,12 @@ import com.planning.demo.repository.UserRepository;
 @SpringBootApplication
 @EnableScheduling
 public class Application {
-	
-	@Autowired
-	static NotificationEmail ne ;
+
 
 	public static void main(String[] args) {
        		
 		ApplicationContext ctx = SpringApplication.run(Application.class, args);
         ActivityRepository ar = ctx.getBean(ActivityRepository.class);
-
 
         //Mise en place de la base		
         Activity a1_1 = new Activity("Football", Level.EASY); 
