@@ -22,9 +22,9 @@ export const addUserActivity = (activity) => {
     return { type: 'ADD_USER_ACTIVITY', newActivity: activity}
 }
 
-/*export const removeUserActivity = (a) => {
-    return { type: 'REMOVE_USER_ACTIVITY', removedActivity: a}
-}*/
+export const addUserRegion = (region) => {
+    return { type: 'ADD_USER_REGION', newRegion: region}
+}
 
 export const getAllRegions = (AllRegions) => {
     return { type: 'GET_ALL_REGIONS', availableRegions: AllRegions}

@@ -62,6 +62,7 @@ class ConnectionForm extends React.Component {
       axios.get(url).then(response => this.props.getUserRegions(response.data.regions));
       axios.get(url).then(response => this.props.getUserMailAddress(response.data.mail));
       let urlAllActivities = 'http://localhost:8080/activity/getAll';
+      //vérifier si je récupere plusieurs fois la meme activitée et ne pas ajouter quand c'est le cas
       axios.get(urlAllActivities).then(response => this.props.getAllActivities(response.data));
       let urlAllRegions = 'http://localhost:8080/region/getAll';
       axios.get(urlAllRegions).then(response => this.props.getAllRegions(response.data));

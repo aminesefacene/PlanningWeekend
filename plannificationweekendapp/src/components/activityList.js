@@ -45,7 +45,7 @@ class ActivityList extends React.Component {
 
     displayAllActivities = () => {
         var Data = this.props.allActivities, MakeItem = function(X) {
-              return <option key={X.name}>{X.name}</option>
+              return <option key={X.name+"|"+X.level+"|key"}>{X.name}</option>
         };
         return Data.map(MakeItem);
     }
@@ -66,15 +66,15 @@ class ActivityList extends React.Component {
                 if(boolContain){
                     this.props.getUserActivities(newActivities)
 
-                    let urlAddActivity = 'http://localhost:8080/user/update/'+this.props.id;
+                    let urlRemoveActivity = 'http://localhost:8080/user/update/'+this.props.id;
                     let newUser = { "username": this.props.user.login,
                       "password": this.props.user.password,
                       "mail": this.props.mailAddress,
-                      "roles": {"idRole":7,"role":"UTILISATEUR"},
+                      "roles": {"idRole":56,"role":"UTILISATEUR"},//a changer
                       "activities": newActivities,
                       "regions": this.props.userRegions
                     }
-                    axios.put(urlAddActivity, newUser).then(res => console.log());
+                    axios.put(urlRemoveActivity, newUser).then(res => console.log());
                 }else{
                     alert("cette activité associée à ce niveau ne fait pas partie de votre liste d'activitées");
                 }
@@ -102,7 +102,7 @@ class ActivityList extends React.Component {
                     let newUser = { "username": this.props.user.login,
                       "password": this.props.user.password,
                       "mail": this.props.mailAddress,
-                      "roles": {"idRole":7,"role":"UTILISATEUR"},
+                      "roles": {"idRole":56,"role":"UTILISATEUR"},//a changer
                       "activities": newActivities,
                       "regions": this.props.userRegions
                     }
