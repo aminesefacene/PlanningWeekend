@@ -6,7 +6,11 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +26,7 @@ import com.planning.demo.domain.Location;
 import com.planning.demo.domain.Region;
 import com.planning.demo.domain.ResultSearch;
 import com.planning.demo.domain.User;
+import com.planning.demo.email.NotificationEmail;
 import com.planning.demo.repository.ActivityRepository;
 import com.planning.demo.repository.UserRepository;
 
@@ -31,17 +36,16 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/activity")
 class ActivityController {
-	
-	
-
 
 	@Autowired
 	private ActivityRepository activityRepository;
-
-
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private NotificationEmail notificationEmail;
 
+	private Logger logger = LoggerFactory.getLogger(ActivityController.class);	
+	
 	
 	@ApiOperation(value = "Return all activities" )
 	@Secured(value = { "ROLE_ADMIN", "ROLE_UTILISATEUR" })
@@ -173,6 +177,33 @@ class ActivityController {
 		
 		return res; 
 	}
+	
+	//Email will be send every tuesday-wednesday at 10.15 am
+	//To test sending emails, please replace @Scheduled(fixedDelay = 30000) for sending every 30 secondes
+	@Scheduled(cron = "0 15 10 ? * TUE-WED")
+    @RequestMapping(value = "/sendEmail")
+	public String sendEmail() {
+	
+		List<ResultSearch> resultSearch = select();
+		
+		for (ResultSearch result: resultSearch) {
+			try {
+				String message = "Bonjour, \n"
+						+ "\n"
+						+ "Voici des propositions d'activités pour vous éclater ce week end : \n"
+						+ "\n"
+						+ "Localisation :"+ result.getLocation() + ": " + result.getActivities() +"\n"
+						+ "\n"
+						+ "Amusez vous bien !";
+				notificationEmail.sendNotifications(result.getEmail(), message);
+			} catch (MailException e) {
+				logger.info("Error senfing email: " + e.getMessage());
+			}
+		}
+		
+		return "Messages sended successfully";
+	}
+	
 	
 	public String locationString(Location location, String city) {
 		return location.getNumStreet() + ", " + location.getNameStreet() + ", " + location.getZipCode() + ", " + city;
